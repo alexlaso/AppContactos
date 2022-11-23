@@ -15,28 +15,28 @@
         android:hint="Nombre" />
 
     <EditText
-        android:id="@+id/textView2"
+        android:id="@+id/editTextNumTel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="Número de teléfono" />
 
     <EditText
-        android:id="@+id/textView3"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="Correo electrónico" />
 
     <EditText
-        android:id="@+id/textView4"
+        android:id="@+id/editTextDir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"
         android:hint="Dirección" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnGuardar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="48dp"

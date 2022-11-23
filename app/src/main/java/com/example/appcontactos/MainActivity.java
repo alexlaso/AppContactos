@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_NUEVO_CONTACTO && resultCode == RESULT_OK){
-            Contacto nuevoContacto = new Contacto(data.getStringExtra("nombre"),data.getIntExtra("num_uno"), data.getStringExtra("email"), data.getStringExtra("direccion"));
+            Contacto nuevoContacto = new Contacto(data.getStringExtra("nombre"),data.getIntExtra("num_uno", 000000000), data.getStringExtra("email"), data.getStringExtra("direccion"));
         }
     }
 }
