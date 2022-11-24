@@ -27,5 +27,21 @@ public class ContactoListAdapter extends ListAdapter<Contacto, ContactoViewHolde
     @Override
     public void onBindViewHolder(@NonNull ContactoViewHolder holder, int position) {
         Contacto actual = getItem(position);
+        holder.editTextNombreNuevo.setText(actual.getNombre().toString());
+        holder.editTextNumTel.setText(actual.getNum_uno());
+        holder.editTextEmail.setText(actual.getEmail().toString());
+        holder.editTextDir.setText(actual.getDireccion().toString());
+    }
+
+    public static class ContactoDiff extends DiffUtil.ItemCallback<Contacto>{
+        @Override
+        public boolean areItemsTheSame(@NonNull Contacto oldItem, @NonNull Contacto newItem) {
+            return oldItem==newItem;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Contacto oldItem, @NonNull Contacto newItem) {
+            return oldItem.toString().equals(newItem.toString());
+        }
     }
 }

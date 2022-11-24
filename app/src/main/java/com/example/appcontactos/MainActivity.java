@@ -3,29 +3,24 @@ package com.example.appcontactos;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.appcontactos.adapters.ContactoListAdapter;
 import com.example.appcontactos.infoContactos.Contacto;
+import com.example.appcontactos.viewModel.ContactoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appcontactos.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView listaContactos;
+    ContactoViewModel contactoViewModel;
     FloatingActionButton btnAdd;
     public static final int REQUEST_CODE_NUEVO_CONTACTO=1;
 
@@ -36,31 +31,17 @@ public class MainActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(view ->{
                 lanzarNuevoContacto();
-    });
+        });
 
         listaContactos = findViewById(R.id.listaContactos);
-    }
+        final ContactoListAdapter adapter = new ContactoListAdapter(new ContactoListAdapter.ContactoDiff());
+        listaContactos.setLayoutManager(new LinearLayoutManager(this));
+        listaContactos.setAdapter(adapter);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        contactoViewModel = new ViewModelProvider(this).get(ContactoViewModel.class);
+        contactoViewModel.getTodosLosContactos().observe(this, contactos -> {
+            adapter.submitList(contactos);
+        });
     }
 
     private void lanzarNuevoContacto(){
@@ -74,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_NUEVO_CONTACTO && resultCode == RESULT_OK){
             Contacto nuevoContacto = new Contacto(data.getStringExtra("nombre"),data.getIntExtra("num_uno", 000000000), data.getStringExtra("email"), data.getStringExtra("direccion"));
+
+             contactoViewModel.insertarNuevoContacto(nuevoContacto);
+        }else{
+            Toast.makeText(getApplicationContext(), "Error, faltan datos", Toast.LENGTH_SHORT).show();
         }
     }
 }
